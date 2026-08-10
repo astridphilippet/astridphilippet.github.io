@@ -40,13 +40,14 @@
         height: 140px;
         border-radius: 50%;
         background: #ddd;
-        border: 2px dashed #aaa;
+        border: 2px solid #2c3e50;
         margin: 0 auto 16px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #888;
         font-size: 13px;
+        object-fit: cover;
       }
 
       header h1 {
@@ -58,10 +59,35 @@
         color: #555;
       } /* EXPERIENCES */
 
+      /* ---------- HEADER LINKS (LinkedIn / GitHub) ---------- */
+      .social-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .social-links a {
+        display: inline-block;
+        padding: 6px 16px;
+        border: 1px solid #2c3e50;
+        border-radius: 4px;
+        color: #2c3e50;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .social-links a:hover {
+        background: #2c3e50;
+        color: #fff;
+      }
+
       /* ---------- TABS ---------- */
       .tabs {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 24px;
       }
@@ -94,6 +120,10 @@
         border: 1px solid #eee;
         border-radius: 6px;
         padding: 24px;
+      }
+
+      #about .panel p + p {
+        margin-top: 12px;
       }
 
       /* ---------- PROJECT CARDS (1 x 3 grid) ---------- */
@@ -134,6 +164,32 @@
         color: #555;
       }
 
+      /* ---------- EXPERIENCE LIST ---------- */
+      .experience-item {
+        padding: 16px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .experience-item:last-child {
+        border-bottom: none;
+      }
+
+      .experience-item h3 {
+        font-size: 16px;
+        margin-bottom: 2px;
+      }
+
+      .experience-item .exp-meta {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 8px;
+      }
+
+      .experience-item p {
+        font-size: 14px;
+        color: #555;
+      }
+
       /* ---------- MOBILE: stack cards vertically ---------- */
       @media (max-width: 640px) {
         .cards {
@@ -149,11 +205,28 @@
          HEADER: photo, name, experiences
          ============================================================ -->
       <header>
-        <!-- Replace this div with <img src="your-photo.jpg" class="photo"> -->
-        <div class="photo">Photo</div>
+        <img src="photo.png" alt="Astrid Philippet" class="photo" />
 
-        <h1>Your Name</h1>
-        <p>Business Analyst · SQL · Python · Tableau</p>
+        <h1>Astrid Philippet</h1>
+        <p>
+          MSc International Business · Strategic Corporate Finance ·
+          Maastricht University
+        </p>
+
+        <div class="social-links">
+          <a
+            href="https://www.linkedin.com/in/astrid-philippet-bb8146124"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
+          <a
+            href="https://github.com/AstridPh27/AstridPh27.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub Repo</a
+          >
+        </div>
       </header>
 
       <!-- ============================================================
@@ -162,6 +235,9 @@
       <div class="tabs">
         <button class="tab-button active" onclick="showTab('about')">
           About Me
+        </button>
+        <button class="tab-button" onclick="showTab('experience')">
+          Experience
         </button>
         <button class="tab-button" onclick="showTab('projects')">
           Projects
@@ -172,9 +248,50 @@
       <div id="about" class="tab-content active">
         <div class="panel">
           <p>
-	 My name is Astrid, a Corporate Finance graduate now completing a Master's in Management and Analytics.
-	 I'm interested in roles that combine financial modeling with data-driven decision-making, such as FP&A, fintech, or investment analytics. 
-	  </p>
+            I'm Astrid Philippet, an MSc student in International Business
+            &ndash; Strategic Corporate Finance at Maastricht University. I
+            previously completed a Flexible Bachelor's in European Studies
+            and International Business, also at Maastricht University.
+          </p>
+          <p>
+            From August to December 2024, I interned at the Embassy of the
+            Kingdom of Belgium in Australia, where I drafted economic and
+            political reports and updated country files.
+          </p>
+          <p>
+            I'm active in Model United Nations as a delegate (HamMUN,
+            MiniMUN, JCUMUN, EuroMUN) and currently serve as External
+            Relations Manager for Scope Maastricht.
+          </p>
+          <p>
+            I'm fluent in French (native) and English, and have
+            upper-intermediate Spanish. I'm particularly interested in roles
+            at the intersection of finance and technology &mdash;
+            data-driven decision-making, fintech, and analytics-driven
+            strategy.
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- TAB: EXPERIENCE ---------- -->
+      <div id="experience" class="tab-content">
+        <div class="panel">
+          <div class="experience-item">
+            <h3>Intern, Embassy of the Kingdom of Belgium in Australia</h3>
+            <div class="exp-meta">Aug 2024 &ndash; Dec 2024</div>
+            <p>
+              Drafted economic and political reports and updated country
+              files for the Embassy.
+            </p>
+          </div>
+          <div class="experience-item">
+            <h3>External Relations Manager, Scope Maastricht</h3>
+            <div class="exp-meta">Sept 2025 &ndash; June 2026</div>
+            <p>
+              Managing external relations and partnerships for Scope
+              Maastricht.
+            </p>
+          </div>
         </div>
       </div>
 
