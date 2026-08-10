@@ -126,6 +126,24 @@
         margin-top: 12px;
       }
 
+      .section-heading {
+        font-size: 18px;
+        color: #2c3e50;
+        margin-top: 24px;
+        margin-bottom: 10px;
+      }
+
+      .bullet-list {
+        list-style: disc;
+        padding-left: 20px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .bullet-list li {
+        margin-bottom: 4px;
+      }
+
       /* ---------- PROJECT CARDS (1 x 3 grid) ---------- */
       .cards {
         display: grid;
@@ -196,6 +214,16 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* ---------- FOOTER (contact links) ---------- */
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid #ddd;
+        font-size: 14px;
+        color: #555;
+      }
     </style>
   </head>
 
@@ -212,21 +240,6 @@
           MSc International Business · Strategic Corporate Finance ·
           Maastricht University
         </p>
-
-        <div class="social-links">
-          <a
-            href="https://www.linkedin.com/in/astrid-philippet-bb8146124"
-            target="_blank"
-            rel="noopener noreferrer"
-            >LinkedIn</a
-          >
-          <a
-            href="https://github.com/AstridPh27/AstridPh27.github.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub Repo</a
-          >
-        </div>
       </header>
 
       <!-- ============================================================
@@ -249,26 +262,41 @@
         <div class="panel">
           <p>
             I'm Astrid Philippet, an MSc student in International Business
-            &ndash; Strategic Corporate Finance at Maastricht University. I
-            previously completed a Flexible Bachelor's in European Studies
-            and International Business, also at Maastricht University.
-          </p>
-          <p>
-            From August to December 2024, I interned at the Embassy of the
-            Kingdom of Belgium in Australia, where I drafted economic and
-            political reports and updated country files.
-          </p>
-          <p>
-            I'm active in Model United Nations as a delegate (HamMUN,
-            MiniMUN, JCUMUN, EuroMUN) and currently serve as External
-            Relations Manager for Scope Maastricht.
-          </p>
-          <p>
-            I'm fluent in French (native) and English, and have
-            upper-intermediate Spanish. I'm particularly interested in roles
-            at the intersection of finance and technology &mdash;
+            &ndash; Strategic Corporate Finance at Maastricht University. My
+            academic and professional background spans international
+            relations, diplomacy, and corporate finance, and I'm now focused
+            on the intersection of finance and technology &mdash;
             data-driven decision-making, fintech, and analytics-driven
             strategy.
+          </p>
+
+          <h3 class="section-heading">Education</h3>
+          <div class="experience-item">
+            <h3>
+              MSc International Business &ndash; Strategic Corporate Finance
+            </h3>
+            <div class="exp-meta">Maastricht University · 2025 &ndash; 2026</div>
+          </div>
+          <div class="experience-item">
+            <h3>Flexible BA in European Studies and International Business</h3>
+            <div class="exp-meta">Maastricht University · 2022 &ndash; 2025</div>
+          </div>
+
+          <h3 class="section-heading">Skills</h3>
+          <ul class="bullet-list">
+            <li>Financial analysis &amp; strategic decision-making</li>
+            <li>Cross-cultural communication &amp; negotiation</li>
+            <li>Report writing &amp; policy analysis</li>
+            <li>Stakeholder &amp; relationship management</li>
+          </ul>
+
+          <h3 class="section-heading">Languages</h3>
+          <p>French (native) · English (fluent) · Spanish (upper-intermediate)</p>
+
+          <h3 class="section-heading">Extracurricular</h3>
+          <p>
+            Former Model United Nations delegate (HamMUN, MiniMUN, JCUMUN,
+            EuroMUN) with multiple Best Delegate awards.
           </p>
         </div>
       </div>
@@ -278,19 +306,33 @@
         <div class="panel">
           <div class="experience-item">
             <h3>Intern, Embassy of the Kingdom of Belgium in Australia</h3>
-            <div class="exp-meta">Aug 2024 &ndash; Dec 2024</div>
-            <p>
-              Drafted economic and political reports and updated country
-              files for the Embassy.
-            </p>
+            <div class="exp-meta">August 2024 &ndash; December 2024</div>
+            <ul class="bullet-list">
+              <li>
+                Updated country files ahead of high-level visits, covering
+                12 countries under the Embassy's jurisdiction
+              </li>
+              <li>
+                Drafted economic and political reports on Australia and New
+                Zealand
+              </li>
+              <li>Prepared reports on diplomatic conferences and seminars</li>
+            </ul>
           </div>
           <div class="experience-item">
             <h3>External Relations Manager, Scope Maastricht</h3>
-            <div class="exp-meta">Sept 2025 &ndash; June 2026</div>
-            <p>
-              Managing external relations and partnerships for Scope
-              Maastricht.
-            </p>
+            <div class="exp-meta">September 2025 &ndash; June 2026</div>
+            <ul class="bullet-list">
+              <li>
+                Manage relationships with external consulting firms ahead of
+                Scope's April 2026 Consultancy Trip to Luxembourg
+              </li>
+              <li>
+                Serve as the primary liaison between the student association
+                and consulting partners, coordinating outreach and
+                communications
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -327,6 +369,28 @@
         </div>
       </div>
     </div>
+
+    <!-- ============================================================
+       FOOTER: contact links
+       ============================================================ -->
+    <footer>
+      <p>Get in touch</p>
+      <div class="social-links">
+        <a href="mailto:astrid.philippet@gmail.com">Email</a>
+        <a
+          href="https://www.linkedin.com/in/astrid-philippet-bb8146124"
+          target="_blank"
+          rel="noopener noreferrer"
+          >LinkedIn</a
+        >
+        <a
+          href="https://github.com/AstridPh27/AstridPh27.github.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub Repo</a
+        >
+      </div>
+    </footer>
 
     <!-- ============================================================
        SIMPLE TAB SWITCHING SCRIPT
