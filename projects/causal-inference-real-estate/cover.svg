@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice">
+  <rect width="400" height="160" fill="#eaf0f6"/>
+  <g fill="#ffffff" stroke="#3c4a5e" stroke-width="2">
+    <rect x="30" y="60" width="110" height="40" rx="8"/>
+    <rect x="260" y="60" width="110" height="40" rx="8"/>
+    <rect x="145" y="12" width="110" height="32" rx="8"/>
+    <rect x="145" y="110" width="110" height="32" rx="8"/>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#3c4a5e" text-anchor="middle">
+    <text x="85" y="85">Near MRT</text>
+    <text x="315" y="85">Price</text>
+    <text x="200" y="33">Stores, Age</text>
+    <text x="200" y="131">Location</text>
+  </g>
+  <g stroke="#7c93b3" stroke-width="2.5" fill="#7c93b3">
+    <line x1="141" y1="80" x2="257" y2="80"/>
+    <polygon points="257,80 248,75 248,85"/>
+    <line x1="200" y1="44" x2="200" y2="58" />
+    <line x1="200" y1="110" x2="200" y2="96" />
+    <line x1="140" y1="60" x2="95" y2="60" stroke-dasharray="4 3"/>
+  </g>
+</svg>
