@@ -220,19 +220,44 @@
   }
   .ip:hover .ip-label, .ip:focus-visible .ip-label { opacity: 1; transform: none; }
   .ip-dialog {
-    border: 0; padding: 0; background: transparent; max-width: min(720px, 92vw); color: #fff;
+    border: 0; padding: 0; background: transparent; color: #fff; margin: auto;
+    width: min(720px, 92vw); max-height: 92vh; overflow: visible;
   }
-  .ip-dialog::backdrop { background: rgba(35, 32, 34, 0.82); backdrop-filter: blur(4px); }
-  .ip-dialog figure { margin: 0; background: var(--paper); color: var(--ink); border-radius: 10px; overflow: hidden; }
-  .ip-dialog img { width: 100%; max-height: 70vh; object-fit: contain; background: #1d1b1c; display: block; }
-  .ip-dialog figcaption { display: grid; gap: 4px; padding: 16px 20px 18px; }
-  .ip-dialog figcaption strong { font-family: var(--serif); font-weight: 400; font-size: 22px; }
+  .ip-dialog::backdrop { background: rgba(35, 32, 34, 0.86); backdrop-filter: blur(6px); }
+  .ip-dialog[open] figure { animation: ipIn 0.6s var(--ease) both; transform-origin: center; }
+  .ip-dialog[open]::backdrop { animation: ipFade 0.45s ease both; }
+  .ip-dialog.is-closing figure { animation: ipOut 0.32s ease-in both; }
+  .ip-dialog.is-closing::backdrop { animation: ipFadeOut 0.32s ease-in both; }
+  .ip-dialog.is-swapping img, .ip-dialog.is-swapping figcaption { animation: ipSwap 0.4s var(--ease) both; }
+  .ip-dialog figure {
+    margin: 0; background: var(--paper); color: var(--ink); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  }
+  .ip-dialog img { width: 100%; max-height: 66vh; object-fit: contain; background: #1d1b1c; display: block; }
+  .ip-dialog figcaption { display: grid; gap: 4px; padding: 16px 22px 18px; }
+  .ip-dialog figcaption strong { font-family: var(--serif); font-weight: 400; font-size: 24px; }
   .ip-dialog figcaption span { font-size: 14px; color: var(--ink-2); }
-  .ip-close {
-    margin-top: 12px; font: inherit; font-size: 14px; background: transparent; color: #fff;
+  .ip-controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; }
+  .ip-close, .ip-nav {
+    font: inherit; font-size: 14px; background: transparent; color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 999px; padding: 8px 18px; cursor: pointer;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
   }
-  .ip-close:hover { background: #fff; color: var(--ink); }
+  .ip-nav { width: 44px; padding: 8px 0; font-size: 18px; }
+  .ip-close:hover, .ip-nav:hover { background: #fff; color: var(--ink); }
+  .ip-nav:hover { transform: scale(1.06); }
+  @keyframes ipIn {
+    from { opacity: 0; transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.3); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes ipOut { to { opacity: 0; transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.35); } }
+  @keyframes ipFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ipFadeOut { to { opacity: 0; } }
+  @keyframes ipSwap { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ip-dialog[open] figure, .ip-dialog.is-closing figure, .ip-dialog[open]::backdrop,
+    .ip-dialog.is-closing::backdrop, .ip-dialog.is-swapping img, .ip-dialog.is-swapping figcaption { animation: none; }
+  }
 
   /* ---------- CONTACT ---------- */
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; }
@@ -676,7 +701,11 @@
           <img id="ip-img" src="" alt="" />
           <figcaption><strong id="ip-title"></strong><span id="ip-cap"></span></figcaption>
         </figure>
-        <button class="ip-close" type="button" aria-label="Close photo">Close</button>
+        <div class="ip-controls">
+          <button class="ip-nav" type="button" id="ip-prev" aria-label="Previous photo">&larr;</button>
+          <button class="ip-close" type="button" aria-label="Close photo">Close</button>
+          <button class="ip-nav" type="button" id="ip-next" aria-label="Next photo">&rarr;</button>
+        </div>
       </dialog>
     </div>
   </div>
@@ -876,12 +905,15 @@
     });
   });
 
-  /* ---------- Interest photos: tilt on hover, open in a lightbox ---------- */
+  /* ---------- Interest photos: tilt on hover, lightbox that pops from the picture ---------- */
   var dialog = document.getElementById("ip-dialog");
   var ipImg = document.getElementById("ip-img");
   var ipTitle = document.getElementById("ip-title");
   var ipCap = document.getElementById("ip-cap");
-  document.querySelectorAll(".ip").forEach(function (btn) {
+  var ipButtons = Array.prototype.slice.call(document.querySelectorAll(".ip"));
+  var current = 0;
+
+  ipButtons.forEach(function (btn) {
     if (!reduce) {
       btn.addEventListener("pointermove", function (e) {
         var r = btn.getBoundingClientRect();
@@ -891,17 +923,65 @@
       });
       btn.addEventListener("pointerleave", function () { btn.style.transform = ""; });
     }
-    btn.addEventListener("click", function () {
-      ipImg.src = btn.dataset.src;
-      ipImg.alt = btn.dataset.title;
-      ipTitle.textContent = btn.dataset.title;
-      ipCap.textContent = btn.dataset.caption;
-      if (dialog.showModal) dialog.showModal();
-    });
+    btn.addEventListener("click", function () { openAt(ipButtons.indexOf(btn), btn); });
   });
+
+  function fill(index, swap) {
+    var btn = ipButtons[index];
+    ipImg.src = btn.dataset.src;
+    ipImg.alt = btn.dataset.title;
+    ipTitle.textContent = btn.dataset.title;
+    ipCap.textContent = btn.dataset.caption;
+    if (swap && !reduce) {
+      dialog.classList.remove("is-swapping");
+      void dialog.offsetWidth;
+      dialog.classList.add("is-swapping");
+    }
+  }
+
+  function openAt(index, fromBtn) {
+    current = index;
+    fill(current, false);
+    if (fromBtn && !reduce) {
+      var r = fromBtn.getBoundingClientRect();
+      var dx = (r.left + r.width / 2) - window.innerWidth / 2;
+      var dy = (r.top + r.height / 2) - window.innerHeight / 2;
+      dialog.style.setProperty("--dx", dx + "px");
+      dialog.style.setProperty("--dy", dy + "px");
+    }
+    dialog.classList.remove("is-closing");
+    if (dialog.showModal) dialog.showModal();
+    ipButtons[current].focus({ preventScroll: true });
+  }
+
+  function step(delta) {
+    current = (current + delta + ipButtons.length) % ipButtons.length;
+    fill(current, true);
+  }
+
+  function closeDialog() {
+    if (!dialog.open || dialog.classList.contains("is-closing")) return;
+    if (reduce) { dialog.close(); return; }
+    dialog.classList.add("is-closing");
+  }
+
   if (dialog) {
-    dialog.querySelector(".ip-close").addEventListener("click", function () { dialog.close(); });
-    dialog.addEventListener("click", function (e) { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener("animationend", function (e) {
+      if (dialog.classList.contains("is-closing") && e.target === ipImg.parentElement) {
+        dialog.classList.remove("is-closing");
+        dialog.close();
+        if (ipButtons[current]) ipButtons[current].focus({ preventScroll: true });
+      }
+    });
+    dialog.addEventListener("cancel", function (e) { e.preventDefault(); closeDialog(); });
+    dialog.querySelector(".ip-close").addEventListener("click", closeDialog);
+    document.getElementById("ip-prev").addEventListener("click", function () { step(-1); });
+    document.getElementById("ip-next").addEventListener("click", function () { step(1); });
+    dialog.addEventListener("click", function (e) { if (e.target === dialog) closeDialog(); });
+    dialog.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+    });
   }
 
   /* ---------- Reveal on scroll, timeline items ---------- */
