@@ -197,6 +197,9 @@
   .outside { margin-top: 56px; max-width: 640px; }
   .outside h3 { font-size: 26px; margin-bottom: 10px; }
   .outside p { color: #d9cfc6; font-size: 15px; }
+  .interest-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px; max-width: 640px; }
+  .interest-photos img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px; }
+  @media (max-width: 680px) { .interest-photos { grid-template-columns: repeat(2, 1fr); } }
 
   /* ---------- CONTACT ---------- */
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; }
@@ -617,6 +620,12 @@
     <div class="outside reveal">
       <h3>Interests</h3>
       <p>Geopolitics, real estate, hiking, classical piano, guitar, singing, and puzzles. Member of the McGill Triathlon Club.</p>
+      <div class="interest-photos">
+        <img src="assets/interest-running.jpg" alt="Race day in a historic town centre, wearing a running vest" loading="lazy" />
+        <img src="assets/interest-hiking.jpg" alt="Standing on a rocky summit above an autumn valley" loading="lazy" />
+        <img src="assets/interest-piano.jpg" alt="A piano keyboard with a cat resting on the bench" loading="lazy" />
+        <img src="assets/interest-puzzle.jpg" alt="A large flower-garden jigsaw puzzle in progress on a table" loading="lazy" />
+      </div>
     </div>
   </div>
 </section>
