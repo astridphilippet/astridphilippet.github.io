@@ -676,7 +676,7 @@
       { x: 0.26, y: 0.76, label: "Management", color: "#b08d57" }
     ];
     var nodes = [];
-    var mouse = { x: -999, y: -999 };
+    var mouse = { x: 0, y: 0, active: false };
 
     for (var i = 0; i < 30; i++) {
       nodes.push({
@@ -701,11 +701,15 @@
       for (i = 0; i < nodes.length; i++) {
         a = nodes[i];
         a.x += a.vx; a.y += a.vy;
-        if (a.x < 0 || a.x > 1) a.vx *= -1;
-        if (a.y < 0 || a.y > 1) a.vy *= -1;
-        var mx = mouse.x / W - a.x, my = mouse.y / H - a.y;
-        var d = Math.sqrt(mx * mx + my * my);
-        if (d < 0.14 && d > 0) { a.x -= mx * 0.004; a.y -= my * 0.004; }
+        if (a.x < 0) { a.x = 0; a.vx = Math.abs(a.vx); }
+        if (a.x > 1) { a.x = 1; a.vx = -Math.abs(a.vx); }
+        if (a.y < 0) { a.y = 0; a.vy = Math.abs(a.vy); }
+        if (a.y > 1) { a.y = 1; a.vy = -Math.abs(a.vy); }
+        if (mouse.active) {
+          var mx = mouse.x / W - a.x, my = mouse.y / H - a.y;
+          var d = Math.sqrt(mx * mx + my * my);
+          if (d < 0.2 && d > 0.001) { a.x += mx * 0.01; a.y += my * 0.01; }
+        }
       }
 
       for (i = 0; i < nodes.length; i++) {
@@ -726,6 +730,22 @@
         a = nodes[i];
         ctx.fillStyle = "rgba(35,32,34,0.55)";
         ctx.beginPath(); ctx.arc(a.x * W, a.y * H, a.r, 0, Math.PI * 2); ctx.fill();
+      }
+
+      if (mouse.active) {
+        var cx = mouse.x, cy = mouse.y;
+        for (i = 0; i < nodes.length; i++) {
+          a = nodes[i];
+          var ex = a.x * W - cx, ey = a.y * H - cy;
+          var de = Math.sqrt(ex * ex + ey * ey);
+          if (de < 120) {
+            ctx.strokeStyle = "rgba(176,141,87," + (0.7 * (1 - de / 120)).toFixed(3) + ")";
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(a.x * W, a.y * H); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = "#b08d57";
+        ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2); ctx.fill();
       }
 
       ctx.font = "500 13px Inter, sans-serif";
@@ -756,9 +776,10 @@
 
     canvas.addEventListener("pointermove", function (e) {
       var r = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+      mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.active = true;
+      if (reduce) draw(0);
     });
-    canvas.addEventListener("pointerleave", function () { mouse.x = -999; mouse.y = -999; });
+    canvas.addEventListener("pointerleave", function () { mouse.active = false; if (reduce) draw(0); });
 
     window.addEventListener("resize", resize);
     resize();
