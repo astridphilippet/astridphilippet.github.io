@@ -200,6 +200,39 @@
   .interest-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px; max-width: 640px; }
   .interest-photos img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px; }
   @media (max-width: 680px) { .interest-photos { grid-template-columns: repeat(2, 1fr); } }
+  .ip {
+    position: relative; border: 0; padding: 0; background: var(--ink); border-radius: 8px; overflow: hidden;
+    aspect-ratio: 1 / 1; cursor: pointer; box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+    transform-style: preserve-3d; will-change: transform;
+  }
+  .ip img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.8s var(--ease), filter 0.5s var(--ease);
+  }
+  .ip:hover img, .ip:focus-visible img { transform: scale(1.08); filter: saturate(1.1); }
+  .ip:hover, .ip:focus-visible { box-shadow: 0 22px 40px -16px rgba(0, 0, 0, 0.6); }
+  .ip-label {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 12px 10px; text-align: left;
+    font-family: var(--serif); font-size: 16px; color: #fff;
+    background: linear-gradient(to top, rgba(35, 32, 34, 0.75), transparent);
+    opacity: 0; transform: translateY(8px); transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .ip:hover .ip-label, .ip:focus-visible .ip-label { opacity: 1; transform: none; }
+  .ip-dialog {
+    border: 0; padding: 0; background: transparent; max-width: min(720px, 92vw); color: #fff;
+  }
+  .ip-dialog::backdrop { background: rgba(35, 32, 34, 0.82); backdrop-filter: blur(4px); }
+  .ip-dialog figure { margin: 0; background: var(--paper); color: var(--ink); border-radius: 10px; overflow: hidden; }
+  .ip-dialog img { width: 100%; max-height: 70vh; object-fit: contain; background: #1d1b1c; display: block; }
+  .ip-dialog figcaption { display: grid; gap: 4px; padding: 16px 20px 18px; }
+  .ip-dialog figcaption strong { font-family: var(--serif); font-weight: 400; font-size: 22px; }
+  .ip-dialog figcaption span { font-size: 14px; color: var(--ink-2); }
+  .ip-close {
+    margin-top: 12px; font: inherit; font-size: 14px; background: transparent; color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 999px; padding: 8px 18px; cursor: pointer;
+  }
+  .ip-close:hover { background: #fff; color: var(--ink); }
 
   /* ---------- CONTACT ---------- */
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; }
@@ -620,12 +653,31 @@
     <div class="outside reveal">
       <h3>Interests</h3>
       <p>Geopolitics, real estate, hiking, classical piano, guitar, singing, and puzzles. Member of the McGill Triathlon Club.</p>
-      <div class="interest-photos">
-        <img src="assets/interest-running.jpg" alt="Race day in a historic town centre, wearing a running vest" loading="lazy" />
-        <img src="assets/interest-hiking.jpg" alt="Standing on a rocky summit above an autumn valley" loading="lazy" />
-        <img src="assets/interest-piano.jpg" alt="A piano keyboard with a cat resting on the bench" loading="lazy" />
-        <img src="assets/interest-puzzle.jpg" alt="A large flower-garden jigsaw puzzle in progress on a table" loading="lazy" />
+      <div class="interest-photos" role="list">
+        <button class="ip" type="button" role="listitem" data-title="Running" data-caption="Race day in a historic town centre. Strava data is what I analyse, but racing is where it starts." data-src="assets/interest-running.jpg" aria-label="Running: open photo">
+          <img src="assets/interest-running.jpg" alt="" loading="lazy" />
+          <span class="ip-label">Running</span>
+        </button>
+        <button class="ip" type="button" role="listitem" data-title="Hiking" data-caption="A rocky summit above an autumn valley." data-src="assets/interest-hiking.jpg" aria-label="Hiking: open photo">
+          <img src="assets/interest-hiking.jpg" alt="" loading="lazy" />
+          <span class="ip-label">Hiking</span>
+        </button>
+        <button class="ip" type="button" role="listitem" data-title="Classical piano" data-caption="Practice sessions, with a supervisor on the bench." data-src="assets/interest-piano.jpg" aria-label="Classical piano: open photo">
+          <img src="assets/interest-piano.jpg" alt="" loading="lazy" />
+          <span class="ip-label">Classical piano</span>
+        </button>
+        <button class="ip" type="button" role="listitem" data-title="Puzzles" data-caption="A flower-garden jigsaw, a few hundred pieces in." data-src="assets/interest-puzzle.jpg" aria-label="Puzzles: open photo">
+          <img src="assets/interest-puzzle.jpg" alt="" loading="lazy" />
+          <span class="ip-label">Puzzles</span>
+        </button>
       </div>
+      <dialog id="ip-dialog" class="ip-dialog" aria-labelledby="ip-title">
+        <figure>
+          <img id="ip-img" src="" alt="" />
+          <figcaption><strong id="ip-title"></strong><span id="ip-cap"></span></figcaption>
+        </figure>
+        <button class="ip-close" type="button" aria-label="Close photo">Close</button>
+      </dialog>
     </div>
   </div>
 </section>
@@ -823,6 +875,34 @@
       panel.innerHTML = html;
     });
   });
+
+  /* ---------- Interest photos: tilt on hover, open in a lightbox ---------- */
+  var dialog = document.getElementById("ip-dialog");
+  var ipImg = document.getElementById("ip-img");
+  var ipTitle = document.getElementById("ip-title");
+  var ipCap = document.getElementById("ip-cap");
+  document.querySelectorAll(".ip").forEach(function (btn) {
+    if (!reduce) {
+      btn.addEventListener("pointermove", function (e) {
+        var r = btn.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        btn.style.transform = "perspective(700px) rotateX(" + (-y * 8).toFixed(2) + "deg) rotateY(" + (x * 8).toFixed(2) + "deg) translateY(-4px)";
+      });
+      btn.addEventListener("pointerleave", function () { btn.style.transform = ""; });
+    }
+    btn.addEventListener("click", function () {
+      ipImg.src = btn.dataset.src;
+      ipImg.alt = btn.dataset.title;
+      ipTitle.textContent = btn.dataset.title;
+      ipCap.textContent = btn.dataset.caption;
+      if (dialog.showModal) dialog.showModal();
+    });
+  });
+  if (dialog) {
+    dialog.querySelector(".ip-close").addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("click", function (e) { if (e.target === dialog) dialog.close(); });
+  }
 
   /* ---------- Reveal on scroll, timeline items ---------- */
   var reveals = document.querySelectorAll(".reveal, .tl-item");
