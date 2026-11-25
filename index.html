@@ -1,696 +1,847 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Business Analytics Portfolio</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"
-      rel="stylesheet"
-    />
-
-    <style>
-      /* ============================================================
-       DESIGN TOKENS — soft, professional palette
-       ============================================================ */
-      :root {
-        --color-bg: #f6f0e6;          /* warm paper */
-        --color-surface: #fffdf9;
-        --color-primary: #7a3e22;     /* terracotta ink */
-        --color-primary-dark: #2e241d;
-        --color-accent: #b9793f;      /* ochre */
-        --color-accent-soft: #efe4d2;
-        --color-text: #33291f;
-        --color-text-muted: #6b5d4f;
-        --color-border: #dccfbb;
-        --shadow-sm: 0 1px 2px rgba(60, 40, 20, 0.06);
-        --shadow-md: 0 8px 22px rgba(60, 40, 20, 0.08);
-        --radius-lg: 14px;
-        --radius-md: 10px;
-        --radius-sm: 999px;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
-        color: var(--color-text);
-        background: var(--color-bg);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      .container {
-        max-width: 880px;
-        margin: 0 auto;
-        padding: 56px 24px 40px;
-      }
-
-      /* ---------- HEADER (photo + name + subheading) ---------- */
-      header {
-        text-align: center;
-        margin-bottom: 40px;
-      }
-
-      .photo {
-        width: 132px;
-        height: 132px;
-        border-radius: 50%;
-        background: var(--color-accent-soft);
-        border: 4px solid var(--color-surface);
-        box-shadow: 0 0 0 3px var(--color-accent-soft), var(--shadow-md);
-        margin: 0 auto 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-text-muted);
-        font-size: 13px;
-        object-fit: cover;
-      }
-
-      header h1 {
-        font-family: "Fraunces", "Inter", serif;
-        font-size: 32px;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        color: var(--color-primary-dark);
-        margin-bottom: 8px;
-      } /* NAME */
-
-      header p {
-        font-size: 15px;
-        color: var(--color-text-muted);
-      } /* EXPERIENCES */
-
-      /* ---------- HEADER LINKS (LinkedIn / GitHub) ---------- */
-      .social-links {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 20px;
-      }
-
-      .social-links a {
-        display: inline-block;
-        padding: 8px 18px;
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-sm);
-        background: var(--color-surface);
-        color: var(--color-primary);
-        text-decoration: none;
-        font-size: 13.5px;
-        font-weight: 500;
-        box-shadow: var(--shadow-sm);
-        transition: all 0.2s ease;
-      }
-
-      .social-links a:hover {
-        background: var(--color-primary);
-        border-color: var(--color-primary);
-        color: #fff;
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-md);
-      }
-
-      /* ---------- TABS ---------- */
-      .tabs {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 4px;
-        background: var(--color-accent-soft);
-        width: fit-content;
-        margin: 0 auto 32px;
-        padding: 5px;
-        border-radius: var(--radius-sm);
-      }
-
-      .tab-button {
-        padding: 9px 22px;
-        border: none;
-        background: transparent;
-        color: var(--color-text-muted);
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 14px;
-        font-weight: 500;
-        border-radius: var(--radius-sm);
-        transition: all 0.2s ease;
-      }
-
-      .tab-button:hover:not(.active) {
-        color: var(--color-primary-dark);
-      }
-
-      .tab-button.active {
-        background: var(--color-surface);
-        color: var(--color-primary-dark);
-        font-weight: 600;
-        box-shadow: var(--shadow-sm);
-      }
-
-      /* ---------- TAB CONTENT ---------- */
-      .tab-content {
-        display: none;
-      }
-      .tab-content.active {
-        display: block;
-        animation: fade-in 0.35s ease;
-      }
-
-      @keyframes fade-in {
-        from {
-          opacity: 0;
-          transform: translateY(4px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .panel {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        padding: 36px;
-      }
-
-      #about .panel > p:first-child {
-        color: var(--color-text);
-        font-size: 15px;
-      }
-
-      #about .panel p + p {
-        margin-top: 12px;
-      }
-
-      .section-heading {
-        font-size: 12.5px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--color-primary);
-        margin-top: 30px;
-        margin-bottom: 14px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid var(--color-border);
-      }
-
-      .panel > .section-heading:first-child {
-        margin-top: 0;
-      }
-
-      .bullet-list {
-        list-style: none;
-        font-size: 14.5px;
-        color: var(--color-text);
-      }
-
-      .bullet-list li {
-        position: relative;
-        padding-left: 18px;
-        margin-bottom: 8px;
-      }
-
-      .bullet-list li::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 8px;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--color-accent);
-      }
-
-      /* ---------- PROJECT CARDS (1 x 3 grid) ---------- */
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
-
-      .card {
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-md);
-        overflow: hidden;
-        background: var(--color-surface);
-        box-shadow: var(--shadow-sm);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-md);
-      }
-
-      /* Empty space for project photo */
-      .card-photo {
-        height: 120px;
-        background: linear-gradient(
-          135deg,
-          var(--color-accent-soft),
-          #eef1f5
-        );
-        border-bottom: 1px solid var(--color-border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-text-muted);
-        font-size: 12px;
-      }
-
-      .card-text {
-        padding: 16px;
-      }
-      .card-text h3 {
-        font-size: 15.5px;
-        font-weight: 600;
-        color: var(--color-primary-dark);
-        margin-bottom: 6px;
-      }
-      .card-text p {
-        font-size: 13.5px;
-        color: var(--color-text-muted);
-      }
-
-      /* ---------- EXPERIENCE LIST ---------- */
-      .experience-item {
-        padding: 18px 0 18px 18px;
-        border-left: 2px solid var(--color-accent-soft);
-        margin-bottom: 4px;
-      }
-
-      .experience-item:hover {
-        border-left-color: var(--color-accent);
-      }
-
-      .experience-item h3 {
-        font-size: 15.5px;
-        font-weight: 600;
-        color: var(--color-primary-dark);
-        margin-bottom: 3px;
-      }
-
-      .experience-item .exp-meta {
-        font-size: 12.5px;
-        font-weight: 500;
-        color: var(--color-accent);
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        margin-bottom: 10px;
-      }
-
-      .experience-item p {
-        font-size: 14px;
-        color: var(--color-text-muted);
-      }
-
-      /* ---------- MOBILE: stack cards vertically ---------- */
-      @media (max-width: 640px) {
-        .cards {
-          grid-template-columns: 1fr;
-        }
-
-        .panel {
-          padding: 24px;
-        }
-      }
-
-      /* ---------- FOOTER (contact links) ---------- */
-      footer {
-        text-align: center;
-        margin-top: 48px;
-        padding: 32px 24px 8px;
-        border-top: 1px solid var(--color-border);
-        font-size: 14px;
-        color: var(--color-text-muted);
-      }
-
-      footer p {
-        font-size: 12.5px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--color-primary);
-      }
-
-      /* ---------- WARM PERSONAL LAYER ---------- */
-      body {
-        background: var(--color-bg);
-      }
-
-      .photo {
-        border: 3px solid var(--color-surface);
-        box-shadow: 0 0 0 1px var(--color-border), var(--shadow-md);
-      }
-
-      header h1 {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        font-size: 36px;
-        font-weight: 600;
-        color: var(--color-primary-dark);
-        letter-spacing: -0.02em;
-      }
-
-      header p {
-        font-family: "Inter", sans-serif;
-        font-size: 15px;
-        letter-spacing: 0.01em;
-        color: var(--color-text-muted);
-      }
-
-      .section-heading {
-        font-family: "Inter", sans-serif;
-        font-size: 15px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--color-primary);
-        display: inline-block;
-        border-bottom: 2px solid var(--color-accent);
-        padding-bottom: 0;
-        margin-bottom: 8px;
-      }
-
-      .tab-button.active {
-        background: var(--color-primary);
-        color: var(--color-surface);
-      }
-
-      .card {
-        background: var(--color-surface);
-        border-color: var(--color-border);
-        border-radius: 12px;
-      }
-
-      .card-text h3 {
-        font-family: "Fraunces", serif;
-        color: var(--color-primary-dark);
-      }
-
-      .experience-item {
-        border-left: 2px solid var(--color-accent);
-        padding-left: 14px;
-      }
-
-      .bullet-list li::before {
-        background: var(--color-accent);
-      }
-
-      .social-links a {
-        border-color: var(--color-border);
-        background: var(--color-surface);
-        color: var(--color-primary);
-      }
-
-      .social-links a:hover {
-        background: var(--color-primary);
-        border-color: var(--color-primary);
-        color: var(--color-surface);
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <!-- ============================================================
-         HEADER: photo, name, experiences
-         ============================================================ -->
-      <header>
-        <img src="headshot.jpg" alt="Astrid Philippet" class="photo" />
-
-        <h1>Astrid Philippet</h1>
-        <p>
-          Master of Management in Analytics · Desautels Faculty of Management, McGill University
-        </p>
-      </header>
-
-      <!-- ============================================================
-         TABS
-         ============================================================ -->
-      <div class="tabs">
-        <button class="tab-button active" onclick="showTab('about')">
-          About Me
-        </button>
-        <button class="tab-button" onclick="showTab('experience')">
-          Experience
-        </button>
-        <button class="tab-button" onclick="showTab('projects')">
-          Projects
-        </button>
-      </div>
-
-      <!-- ---------- TAB 1: ABOUT ME ---------- -->
-      <div id="about" class="tab-content active">
-        <div class="panel">
-          <p>
-            I'm Astrid Philippet, a Management and Analytics (MMA) student at McGill University.
-          </p>
-          <p>
-            My background spans international relations, diplomacy, and corporate finance, and I'm now focused on where finance meets technology. I'm doing the MMA to build data-driven decision-making skills and turn that cross-disciplinary background into sharper analytical judgment.
-          </p>
-
-          <h3 class="section-heading">Education</h3>
-          <div class="experience-item">
-            <h3>Master of Management in Analytics</h3>
-            <div class="exp-meta">
-              Desautels Faculty of Management, McGill University · July 2026
-              &ndash; August 2027
-            </div>
-            <ul class="bullet-list">
-              <li>MMA Representative; Entrance Award of $12,000</li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>Master of Science in International Business, Strategic Corporate Finance</h3>
-            <div class="exp-meta">Maastricht University · September 2025 &ndash; June 2026</div>
-            <ul class="bullet-list">
-              <li>Thesis: Reshaping Financial Markets through Fintech Adoption: Evidence from Belgian Women's Investment Behavior</li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>Bachelor of Arts in European Studies, minor in International Business</h3>
-            <div class="exp-meta">Maastricht University · September 2022 &ndash; June 2025</div>
-            <ul class="bullet-list">
-              <li>Thesis: Shaping the Global Digital Order: Contrasting U.S., EU and Chinese Digital Regulatory Strategies in South Korea</li>
-            </ul>
-          </div>
-
-          <h3 class="section-heading">Skills</h3>
-          <ul class="bullet-list">
-            <li>Financial analysis &amp; strategic decision-making</li>
-            <li>Valuation (DCF, CAPM), portfolio construction &amp; optimization</li>
-            <li>Statistical analysis (regression, mediation/moderation) &amp; survey design</li>
-            <li>Relational database design (3NF, ERD)</li>
-            <li>Cross-cultural communication &amp; negotiation</li>
-            <li>Report writing &amp; policy analysis</li>
-            <li>Stakeholder &amp; relationship management</li>
-          </ul>
-
-          <h3 class="section-heading">Technical Skills</h3>
-          <ul class="bullet-list">
-            <li>Python</li>
-            <li>R</li>
-            <li>SQL</li>
-            <li>SPSS</li>
-            <li>Excel (financial modelling, pivot tables)</li>
-            <li>Power BI</li>
-            <li>Databricks</li>
-            <li>Qualtrics</li>
-            <li>PowerPoint &amp; Word</li>
-          </ul>
-
-          <h3 class="section-heading">Career Interests</h3>
-          <ul class="bullet-list">
-            <li>Fintech &amp; digital banking</li>
-            <li>Corporate finance &amp; M&amp;A</li>
-            <li>Data analytics &amp; business intelligence</li>
-            <li>Real estate</li>
-            <li>International trade &amp; economic policy</li>
-            <li>Venture capital &amp; startup ecosystems</li>
-          </ul>
-
-          <h3 class="section-heading">Languages</h3>
-          <ul class="bullet-list">
-            <li>French (native)</li>
-            <li>English (fluent)</li>
-            <li>Spanish (upper-intermediate)</li>
-            <li>Dutch &amp; German (elementary)</li>
-          </ul>
-
-          <h3 class="section-heading">Extracurricular &amp; Interests</h3>
-          <p>
-            Former Model United Nations delegate (HamMUN, MiniMUN, JCUMUN,
-            EuroMUN) with three Best Delegate awards, and a member of the
-            United Nations Student Association. Member of the McGill Triathlon Club.
-            Interests include geopolitics, real estate, hiking, classical piano,
-            guitar, singing, and puzzles.
-          </p>
-        </div>
-      </div>
-
-      <!-- ---------- TAB: EXPERIENCE ---------- -->
-      <div id="experience" class="tab-content">
-        <div class="panel">
-          <div class="experience-item">
-            <h3>Business Intelligence Developer &amp; UI Designer, Michelin (Metro Tire Business Unit)</h3>
-            <div class="exp-meta">Montreal, Canada &middot; September 2026 &ndash; April 2027</div>
-            <ul class="bullet-list">
-              <li>Developing a proof of concept to improve demand forecasting accuracy and support inventory and procurement decisions</li>
-              <li>Leading UI design and development of Power BI forecasting dashboards for Michelin's planning and procurement teams</li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>Economic &amp; Political Affairs Intern, Embassy of the Kingdom of Belgium</h3>
-            <div class="exp-meta">Canberra, Australia &middot; August 2024 &ndash; December 2024</div>
-            <ul class="bullet-list">
-              <li>
-                Drafted political and economic analyses on Australia and New
-                Zealand and maintained country files across 12 markets,
-                consolidating political, economic, and trade intelligence for reporting to Brussels
-              </li>
-              <li>
-                Represented the Embassy at 30+ diplomatic meetings and
-                conferences, synthesizing key insights and briefing senior staff
-                to support ministerial visit preparation
-              </li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>External Relations Manager, Scope Maastricht (Business &amp; Economics Association)</h3>
-            <div class="exp-meta">Maastricht, The Netherlands &middot; September 2025 &ndash; June 2026</div>
-            <ul class="bullet-list">
-              <li>
-                Targeted consulting firms, negotiated fees, and secured visits for the association's Luxembourg consulting trip
-              </li>
-              <li>
-                Delivered a trip rated 8.4/10 by participants, above the previous trip's score of 8.1/10
-              </li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>Member of the Permanent Delegation, United Nations Student Association (UNSA)</h3>
-            <div class="exp-meta">Maastricht, The Netherlands &middot; September 2023 &ndash; June 2024</div>
-            <ul class="bullet-list">
-              <li>Trained weekly in UN debate simulations, practicing public speaking, negotiation, and resolution drafting</li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>Delegate, Model United Nations Conferences</h3>
-            <div class="exp-meta">Hamburg, Maastricht, Rome &middot; September 2023 &ndash; May 2024</div>
-            <ul class="bullet-list">
-              <li>Delegate at HamMUN, MiniMUN, EuroMUN, and JCUMUN</li>
-              <li>Led 4 resolutions on topics such as wartime environmental damage and pandemic governance, and won 3 Best Delegate awards</li>
-            </ul>
-          </div>
-          <div class="experience-item">
-            <h3>Scope-AI-Thon 2026, University of Waterloo x McGill University</h3>
-            <div class="exp-meta">Montreal, Canada &middot; November 2026</div>
-            <ul class="bullet-list">
-              <li>Proposed an AI contactless monitoring system for early detection of deterioration in isolated patients, placing 2nd</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- ---------- TAB 2: PROJECTS ---------- -->
-      <div id="projects" class="tab-content">
-        <div class="cards">
-          <!-- CARD 1 -->
-          <div class="card">
-            <img class="card-photo" src="projects/real-estate-valuation/skyline.jpg" alt="Illustration of a house, a metro sign and a price trend line" style="display:block;width:100%;height:120px;object-fit:cover;border-bottom:1px solid var(--color-border);" />
-            <div class="card-text">
-              <h3>Real Estate Price Estimation</h3>
-              <p>Built regression models to estimate house prices from age, distance to the nearest metro station, nearby stores, and location, using 414 sales. Compared linear regression, decision trees, and random forests, then tuned the best model. Test error was higher than cross-validation error because the test set included prices outside the training range.</p>
-              <p><a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/real-estate-valuation" target="_blank" rel="noopener noreferrer">View project files</a></p>
-            </div>
-          </div>
-
-          <!-- CARD 2 -->
-          <div class="card">
-            <img class="card-photo" src="projects/halloween-montreal-crime/halloween-yard.jpg" alt="Illustration of a bar chart and a pumpkin" style="display:block;width:100%;height:120px;object-fit:cover;border-bottom:1px solid var(--color-border);" />
-            <div class="card-text">
-              <h3>Halloween and Crime in Montréal</h3>
-              <p>Group project on 363,000 police reports from 2015 to 2025. Built and compared four models to rank high-crime days and tested whether Halloween changes crime. The main finding is a shift toward mischief and robbery rather than higher total crime. The model beats a seasonal baseline only modestly on held-out years.</p>
-              <p><a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/halloween-montreal-crime" target="_blank" rel="noopener noreferrer">View project files</a></p>
-            </div>
-          </div>
-
-          <!-- CARD 3 -->
-          <div class="card">
-            <img class="card-photo" src="projects/strava-kudos-analysis/runner.jpg" alt="Illustration of a running route and kudos bars" style="display:block;width:100%;height:120px;object-fit:cover;border-bottom:1px solid var(--color-border);" />
-            <div class="card-text">
-              <h3>Strava Kudos Analysis</h3>
-              <p>Statistical analysis of what earns kudos on 178 runs. Used OLS and Poisson count models with time-based controls, then a logistic model for breakout runs. A photo or video is associated with about 20% more kudos, and each extra kilometre with about 4% more.</p>
-              <p><a href="https://strava-dashboard-lovat-one.vercel.app/kudos" target="_blank" rel="noopener noreferrer">Live dashboard</a> · <a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/strava-kudos-analysis" target="_blank" rel="noopener noreferrer">Project files</a></p>
-            </div>
-          </div>
-
-          <!-- CARD 4 -->
-          <div class="card">
-            <img class="card-photo" src="projects/causal-inference-real-estate/mrt-station.jpg" alt="Diagram of causal links between MRT distance and price" style="display:block;width:100%;height:120px;object-fit:cover;border-bottom:1px solid var(--color-border);" />
-            <div class="card-text">
-              <h3>Causal Inference: MRT Distance and House Prices</h3>
-              <p>Estimated how much being within 500 m of a metro station raises house prices, using CausalML and DoWhy on 414 sales. The naive gap was about 17 per unit area. The causal estimate is about 9 to 12, and the effect looks larger for newer houses. Limitations include possible hidden confounders.</p>
-              <p><a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/causal-inference-real-estate" target="_blank" rel="noopener noreferrer">View project files</a></p>
-            </div>
-          </div>
-
-        </div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Astrid Philippet · Finance, Analytics and Technology</title>
+<meta name="description" content="Astrid Philippet: projects, experience and contact across finance, data analytics and technology." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f6f1ea;
+    --paper-2: #efe7dc;
+    --wine: #6b1f2e;
+    --wine-deep: #3f1019;
+    --ink: #232022;
+    --ink-2: #5d5558;
+    --gold: #b08d57;
+    --line: rgba(35, 32, 34, 0.14);
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: var(--wine); }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+  .skip {
+    position: absolute; left: -999px; top: 8px; background: var(--ink); color: #fff; padding: 8px 12px; z-index: 100;
+  }
+  .skip:focus { left: 8px; }
+  .wrap { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); font-weight: 500;
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; line-height: 1.12; }
+  h2 { font-size: clamp(34px, 4.4vw, 52px); margin-bottom: 18px; }
+  section { padding: 110px 0; position: relative; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    background: rgba(246, 241, 234, 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s var(--ease);
+  }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .brand { font-family: var(--serif); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav ul { display: flex; gap: 26px; list-style: none; }
+  .nav a {
+    color: var(--ink-2); text-decoration: none; font-size: 14px; position: relative; padding: 4px 0;
+  }
+  .nav a::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+    background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--ease);
+  }
+  .nav a:hover::after, .nav a[aria-current="true"]::after { transform: scaleX(1); }
+  .nav a[aria-current="true"] { color: var(--wine); }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 150px 0 90px; min-height: 100vh; display: flex; align-items: center; }
+  .hero .wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+  .hero h1 { font-size: clamp(44px, 6.2vw, 82px); margin: 18px 0 26px; }
+  .hero h1 em { color: var(--wine); font-style: italic; }
+  .hero .lede { font-size: 18px; color: var(--ink-2); max-width: 540px; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
+    border: 1px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+  .btn.solid { background: var(--wine); border-color: var(--wine); color: #fff; }
+  .btn.solid:hover { background: var(--wine-deep); border-color: var(--wine-deep); }
+  .net-wrap { position: relative; aspect-ratio: 1 / 1; width: 100%; max-width: 520px; justify-self: center; }
+  #net { width: 100%; height: 100%; display: block; cursor: crosshair; }
+  .net-portrait {
+    position: absolute; inset: 22%; border-radius: 50%; overflow: hidden;
+    border: 3px solid var(--paper); box-shadow: 0 10px 30px rgba(35, 32, 34, 0.18);
+    pointer-events: none;
+  }
+  .net-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .net-caption { position: absolute; bottom: -6px; left: 0; font-size: 12px; color: var(--ink-2); }
+  .scroll-cue { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--ink-2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ---------- PROJECTS ---------- */
+  .section-intro { color: var(--ink-2); max-width: 620px; margin-bottom: 52px; font-size: 17px; }
+  .cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
+  .flip { perspective: 1400px; height: 600px; cursor: pointer; outline: none; }
+  .flip-inner {
+    position: relative; width: 100%; height: 100%;
+    transition: transform 0.8s var(--ease); transform-style: preserve-3d;
+  }
+  .flip.is-flipped .flip-inner { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    background: #fffdf9; border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 1px 0 rgba(35, 32, 34, 0.04), 0 18px 40px -22px rgba(35, 32, 34, 0.35);
+    transition: box-shadow 0.4s var(--ease);
+  }
+  .flip:hover .face { box-shadow: 0 1px 0 rgba(35, 32, 34, 0.04), 0 26px 50px -22px rgba(35, 32, 34, 0.45); }
+  .back { transform: rotateY(180deg); padding: 28px; overflow-y: auto; }
+  .front .media { height: 230px; position: relative; overflow: hidden; background: var(--paper-2); }
+  .front .media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease); }
+  .flip:hover .front .media img { transform: scale(1.05); }
+  .media.blank {
+    display: flex; align-items: center; justify-content: center; color: var(--ink-2);
+    font-family: var(--serif); font-style: italic; font-size: 18px; border-bottom: 1px dashed var(--line);
+  }
+  .front .body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .meta { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .front h3 { font-size: 27px; }
+  .front .tagline { color: var(--ink-2); font-size: 15px; }
+  .hint { margin-top: auto; font-size: 13px; color: var(--ink-2); display: flex; align-items: center; gap: 8px; }
+  .hint::before { content: ""; width: 18px; height: 1px; background: var(--gold); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .tags span { font-size: 12px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); }
+  .back h3 { font-size: 24px; margin-bottom: 14px; }
+  .back dl { display: grid; gap: 12px; }
+  .back dt { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; }
+  .back dd { font-size: 14px; color: var(--ink); margin-top: 2px; }
+  .back .links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; font-size: 14px; }
+  .placeholder { color: var(--ink-2); font-style: italic; }
+  .bars { display: grid; gap: 10px; margin-top: 4px; }
+  .bar { display: grid; grid-template-columns: 110px 1fr 44px; align-items: center; gap: 10px; font-size: 12px; color: var(--ink-2); }
+  .bar i { display: block; height: 8px; background: var(--wine); width: 0; border-radius: 2px; transition: width 1s var(--ease) 0.3s; }
+  .flip.is-flipped .bar i { width: var(--w); }
+  .bar b { font-weight: 600; color: var(--ink); text-align: right; }
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .tl h3.col-title { font-size: 26px; margin-bottom: 26px; }
+  .tl-list { list-style: none; position: relative; padding-left: 28px; }
+  .tl-list::before {
+    content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: var(--line);
+  }
+  .tl-item { position: relative; padding: 0 0 30px; opacity: 0; transform: translateY(14px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+  .tl-item.in { opacity: 1; transform: none; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -27px; top: 7px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--wine); transition: background 0.3s var(--ease);
+  }
+  .tl-item:hover::before { background: var(--wine); }
+  .tl-item .when { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+  .tl-item h4 { font-family: var(--serif); font-weight: 400; font-size: 20px; margin: 4px 0 2px; }
+  .tl-item .org { font-size: 14px; color: var(--ink-2); }
+  .tl-item details { margin-top: 8px; }
+  .tl-item summary { cursor: pointer; font-size: 13px; color: var(--wine); list-style: none; }
+  .tl-item summary::-webkit-details-marker { display: none; }
+  .tl-item summary::after { content: " +"; }
+  .tl-item details[open] summary::after { content: " –"; }
+  .tl-item details ul { margin-top: 8px; padding-left: 18px; font-size: 14px; color: var(--ink-2); }
+  .tl-item details li + li { margin-top: 4px; }
+
+  /* ---------- SKILLS ---------- */
+  #skills { background: var(--wine-deep); color: var(--paper); }
+  #skills .eyebrow { color: #d9c7a4; }
+  #skills .section-intro { color: #d9cfc6; }
+  .skills-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+  .skill-cloud { display: flex; flex-wrap: wrap; gap: 12px; }
+  .skill {
+    font: inherit; font-size: 15px; background: transparent; color: var(--paper);
+    border: 1px solid rgba(246, 241, 234, 0.3); border-radius: 999px; padding: 10px 18px; cursor: pointer;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .skill:hover { transform: translateY(-2px); border-color: var(--gold); }
+  .skill[aria-pressed="true"] { background: var(--paper); color: var(--wine-deep); border-color: var(--paper); }
+  .skill-panel {
+    border-left: 1px solid rgba(246, 241, 234, 0.25); padding-left: 32px; min-height: 220px;
+  }
+  .skill-panel h3 { font-size: 26px; margin-bottom: 12px; }
+  .skill-panel p { color: #d9cfc6; font-size: 15px; }
+  .skill-panel ul { list-style: none; margin-top: 14px; display: grid; gap: 8px; }
+  .skill-panel li a { color: var(--paper); text-decoration: none; border-bottom: 1px solid var(--gold); }
+  .exploring { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .exploring div { border-top: 1px solid rgba(246, 241, 234, 0.25); padding-top: 14px; font-size: 14px; color: #d9cfc6; }
+  .exploring b { display: block; font-family: var(--serif); font-weight: 400; font-size: 20px; color: var(--paper); margin-bottom: 4px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; }
+  .contact-big {
+    font-family: var(--serif); font-size: clamp(34px, 5vw, 60px); line-height: 1.1; text-decoration: none; color: var(--ink);
+    background: linear-gradient(var(--wine), var(--wine)) no-repeat 0 100% / 0 2px;
+    transition: background-size 0.5s var(--ease), color 0.3s var(--ease);
+  }
+  .contact-big:hover { background-size: 100% 2px; color: var(--wine); }
+  .contact-list { list-style: none; display: grid; gap: 14px; }
+  .contact-list a { color: var(--ink); text-decoration: none; font-size: 17px; border-bottom: 1px solid var(--line); padding-bottom: 6px; display: inline-block; transition: color 0.3s, border-color 0.3s; }
+  .contact-list a:hover { color: var(--wine); border-color: var(--wine); }
+
+  footer { padding: 36px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-2); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- REVEAL ---------- */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 960px) {
+    .hero .wrap, .timeline-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .net-wrap { max-width: 440px; margin-top: 12px; }
+    .exploring { grid-template-columns: repeat(2, 1fr); }
+    .skill-panel { border-left: none; padding-left: 0; border-top: 1px solid rgba(246, 241, 234, 0.25); padding-top: 28px; }
+  }
+  @media (max-width: 680px) {
+    section { padding: 84px 0; }
+    .nav ul { gap: 14px; }
+    .nav a { font-size: 13px; }
+    .brand { font-size: 17px; }
+    .flip { height: 640px; }
+    .front .media { height: 190px; }
+    .bar { grid-template-columns: 90px 1fr 40px; }
+    .scroll-cue { display: none; }
+  }
+  @media (max-width: 480px) {
+    .nav ul li:nth-child(4) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; }
+    .reveal, .tl-item { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">Astrid Philippet</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section id="top" class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow reveal">Master of Management in Analytics · McGill University</p>
+      <h1 class="reveal">Finance asks what things are worth. <em>Data</em> tells you why.</h1>
+      <p class="lede reveal">I work where finance, analytics and technology overlap. My background is in international business and corporate finance, and I'm now building the analytical tools to test those questions properly.</p>
+      <div class="actions reveal">
+        <a class="btn solid" href="#projects">See the projects</a>
+        <a class="btn" href="#experience">Experience</a>
+        <a class="btn" href="#contact">Contact</a>
       </div>
     </div>
 
-    <!-- ============================================================
-       FOOTER: contact links
-       ============================================================ -->
-    <footer>
-      <p>Get in touch</p>
-      <div class="social-links">
-        <a href="mailto:astrid.philippet@gmail.com">Email</a>
-        <a
-          href="https://www.linkedin.com/in/astrid-philippet-bb8146124"
-          target="_blank"
-          rel="noopener noreferrer"
-          >LinkedIn</a
-        >
-        <a
-          href="https://github.com/AstridPh27/AstridPh27.github.io"
-          target="_blank"
-          rel="noopener noreferrer"
-          >GitHub Repo</a
-        >
-      </div>
-    </footer>
+    <div class="net-wrap reveal" aria-label="Interactive network of finance, data, technology and management">
+      <canvas id="net" role="img" aria-label="Animated network linking finance, data, technology and management. Move the cursor across it."></canvas>
+      <div class="net-portrait"><img src="headshot.jpg" alt="Astrid Philippet" /></div>
+      <p class="net-caption">Move your cursor across the network.</p>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#projects">Scroll</a>
+</section>
 
-    <!-- ============================================================
-       SIMPLE TAB SWITCHING SCRIPT
-       ============================================================ -->
-    <script>
-      function showTab(id) {
-        // hide all tab contents
-        document.querySelectorAll(".tab-content").forEach(function (el) {
-          el.classList.remove("active");
-        });
-        // remove active state from all buttons
-        document.querySelectorAll(".tab-button").forEach(function (btn) {
-          btn.classList.remove("active");
-        });
-        // show the selected tab + highlight the clicked button
-        document.getElementById(id).classList.add("active");
-        event.target.classList.add("active");
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <p class="eyebrow reveal">Selected work</p>
+    <h2 class="reveal">Case studies</h2>
+    <p class="section-intro reveal">Each card turns over to show the problem, the approach, the tools and what the analysis found. Results are taken from the repositories and reports. Where material is missing, the card says so.</p>
+
+    <div class="cases">
+
+      <!-- Case 1 -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Real Estate Price Estimation case study. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media"><img src="projects/real-estate-valuation/skyline.jpg" alt="Taipei skyline at dusk" /></div>
+            <div class="body">
+              <span class="meta">INSY 674 · Individual assignment</span>
+              <h3>Real Estate Price Estimation</h3>
+              <p class="tagline">What drives house prices per unit area?</p>
+              <div class="tags"><span>Python</span><span>scikit-learn</span><span>Regression</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Real Estate Price Estimation</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Estimate price per unit area from house age, distance to the nearest MRT station, nearby stores and location.</dd></div>
+              <div><dt>Approach</dt><dd>Stratified train/test split. Pipeline with a log-transformed distance, location clusters and scaling. Linear regression, decision tree and random forest compared with 10-fold cross-validation, then tuned.</dd></div>
+              <div><dt>Tools</dt><dd>Python, pandas, scikit-learn</dd></div>
+              <div><dt>Findings</dt><dd>Cross-validated RMSE of about 5.7. Test RMSE of about 12, because the test set had prices outside the training range. Still better than always predicting the average.</dd></div>
+            </dl>
+            <div class="links"><a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/real-estate-valuation" target="_blank" rel="noopener noreferrer">Project files</a></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 2 -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Halloween and Crime in Montreal case study. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media"><img src="projects/halloween-montreal-crime/halloween-yard.jpg" alt="Staged Halloween yard with headstones and crime-scene markers" /></div>
+            <div class="body">
+              <span class="meta">INSY 674 · Group project</span>
+              <h3>Halloween and Crime in Montréal</h3>
+              <p class="tagline">Does Halloween change what crime looks like?</p>
+              <div class="tags"><span>Forecasting</span><span>Bayesian models</span><span>Time series</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Halloween and Crime in Montréal</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Predict high-crime days from more than 363,000 police reports (2015–2025), and test whether Halloween changes crime.</dd></div>
+              <div><dt>Approach</dt><dd>Daily counts. Sliding-window validation with a 29-day gap to prevent leakage. Four model families, a tuned ensemble, and a held-out test on 2024–2025. Bayesian and district-level models for Halloween.</dd></div>
+              <div><dt>Tools</dt><dd>Python, scikit-learn, PyMC, statsmodels</dd></div>
+              <div><dt>Findings</dt><dd>Halloween shifts the mix of crime rather than raising the total. Test AUC of 0.664 and 0.674, against 0.649 and 0.648 for a seasonal baseline, so the gain is small.</dd></div>
+            </dl>
+            <div class="bars" aria-label="Estimated Halloween-window effects on odds">
+              <div class="bar"><span>Mischief odds</span><i style="--w:22%"></i><b>+22%</b></div>
+              <div class="bar"><span>Robbery odds</span><i style="--w:23%"></i><b>+23%</b></div>
+            </div>
+            <div class="links"><a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/halloween-montreal-crime" target="_blank" rel="noopener noreferrer">Project files</a></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 3 -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Strava Kudos Analysis case study. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media"><img src="projects/strava-kudos-analysis/runner.jpg" alt="Runner on a trail with a glowing route overlay" /></div>
+            <div class="body">
+              <span class="meta">Personal project · 178 runs</span>
+              <h3>Strava Kudos Analysis</h3>
+              <p class="tagline">What makes a run earn kudos?</p>
+              <div class="tags"><span>Poisson regression</span><span>statsmodels</span><span>Robustness checks</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Strava Kudos Analysis</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Which factors are linked to kudos on one runner's public Strava activities?</dd></div>
+              <div><dt>Approach</dt><dd>OLS, then Poisson count models with a time control for audience growth. Likelihood-ratio tests, robustness refits and a logistic model for breakout runs.</dd></div>
+              <div><dt>Tools</dt><dd>Python, statsmodels, scikit-learn</dd></div>
+              <div><dt>Findings</dt><dd>Photos or video are linked to about 20% more kudos, and each extra kilometre to about 4% more. Pace, PRs and captions show no clear effect. One runner, so this is a case study.</dd></div>
+            </dl>
+            <div class="bars" aria-label="Estimated effects on kudos">
+              <div class="bar"><span>Photo or video</span><i style="--w:20%"></i><b>+20%</b></div>
+              <div class="bar"><span>Per extra km</span><i style="--w:4%"></i><b>+4%</b></div>
+            </div>
+            <div class="links">
+              <a href="https://strava-dashboard-lovat-one.vercel.app/kudos" target="_blank" rel="noopener noreferrer">Live dashboard</a>
+              <a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/strava-kudos-analysis" target="_blank" rel="noopener noreferrer">Project files</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 4 -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Causal Inference: MRT Distance and House Prices case study. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media"><img src="projects/causal-inference-real-estate/mrt-station.jpg" alt="Taipei Main Station at night" /></div>
+            <div class="body">
+              <span class="meta">Assignment 2 · Causal inference</span>
+              <h3>MRT Distance and House Prices</h3>
+              <p class="tagline">How much of the station premium is causal?</p>
+              <div class="tags"><span>CausalML</span><span>DoWhy</span><span>XGBoost</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>MRT Distance and House Prices</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Does being within 500 m of an MRT station raise price per unit area, after accounting for other differences?</dd></div>
+              <div><dt>Approach</dt><dd>CausalML S-learner and T-learner. DoWhy workflow: identify, estimate, then refute with placebo, random common cause and subset tests.</dd></div>
+              <div><dt>Tools</dt><dd>Python, CausalML, DoWhy, XGBoost</dd></div>
+              <div><dt>Findings</dt><dd>The naive gap is about 16.8. With stores as a control, the estimates are about 9.4 to 9.7. The main estimate passed the refutation tests. Hidden confounders remain possible.</dd></div>
+            </dl>
+            <div class="links"><a href="https://github.com/astridphilippet/AstridPh27.github.io/tree/main/projects/causal-inference-real-estate" target="_blank" rel="noopener noreferrer">Project files</a></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 5: SQL -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="ACME Simulators database case study. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media blank">Schema diagram to come</div>
+            <div class="body">
+              <span class="meta">Aug 2026 · SQL</span>
+              <h3>ACME Simulators Database</h3>
+              <p class="tagline">A normalized database for product documentation.</p>
+              <div class="tags"><span>SQL</span><span>3NF</span><span>ERD</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>ACME Simulators Database</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Link each product to its documents, revision history and approval status.</dd></div>
+              <div><dt>Approach</dt><dd>Normalized relational design (3NF) with an entity-relationship diagram.</dd></div>
+              <div><dt>Tools</dt><dd>SQL, relational database design</dd></div>
+              <div><dt>Findings</dt><dd class="placeholder">Results and sample queries to come.</dd></div>
+            </dl>
+            <div class="links"><span class="placeholder">Repository link to come</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 6: Ortec -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Behavioral Finance project with Ortec Finance case study. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media blank">Experiment visual to come</div>
+            <div class="body">
+              <span class="meta">Apr 2026 · Finance and AI</span>
+              <h3>Behavioural Finance with Ortec Finance</h3>
+              <p class="tagline">Can AI read a client's risk tolerance?</p>
+              <div class="tags"><span>Behavioural experiment</span><span>Risk profiling</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Behavioural Finance with Ortec Finance</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Test how AI adoption affects client risk profiling.</dd></div>
+              <div><dt>Approach</dt><dd>Behavioural experiment with 49 participants.</dd></div>
+              <div><dt>Tools</dt><dd class="placeholder">To be confirmed</dd></div>
+              <div><dt>Findings</dt><dd>GPT scoring overstated risk tolerance, which could lead to unsuitable portfolios. The study proposes behavioural profiling as an alternative.</dd></div>
+            </dl>
+            <div class="links"><span class="placeholder">Report link to come</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 7: Michelin -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="Michelin demand forecasting case study, in progress. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media blank">Dashboard preview to come</div>
+            <div class="body">
+              <span class="meta">Sep 2026 – Apr 2027 · In progress</span>
+              <h3>Demand Forecasting for Michelin</h3>
+              <p class="tagline">Better forecasts for tyre inventory and procurement.</p>
+              <div class="tags"><span>Power BI</span><span>Forecasting</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Demand Forecasting for Michelin</h3>
+            <dl>
+              <div><dt>Problem</dt><dd>Improve demand forecasting accuracy to support inventory and procurement decisions at Michelin's Metro Tire Business Unit.</dd></div>
+              <div><dt>Approach</dt><dd>Proof of concept, with Power BI forecasting dashboards for planning and procurement teams.</dd></div>
+              <div><dt>Tools</dt><dd>Power BI</dd></div>
+              <div><dt>Findings</dt><dd class="placeholder">Project in progress. Outcomes to come.</dd></div>
+            </dl>
+            <div class="links"><span class="placeholder">Dashboard link to come</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Case 8: Capstone placeholder -->
+      <article class="flip reveal" tabindex="0" role="button" aria-pressed="false" aria-label="McGill capstone consulting project, details to come. Press to flip.">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="media blank">Capstone visual to come</div>
+            <div class="body">
+              <span class="meta">McGill MMA · Capstone</span>
+              <h3>Capstone Consulting Project</h3>
+              <p class="tagline">Details to come.</p>
+              <div class="tags"><span>Consulting</span><span>Analytics</span></div>
+              <span class="hint">Flip for the case study</span>
+            </div>
+          </div>
+          <div class="face back">
+            <h3>Capstone Consulting Project</h3>
+            <dl>
+              <div><dt>Problem</dt><dd class="placeholder">Client question and business context to come.</dd></div>
+              <div><dt>Approach</dt><dd class="placeholder">Analytical approach to come.</dd></div>
+              <div><dt>Tools</dt><dd class="placeholder">To be confirmed</dd></div>
+              <div><dt>Findings</dt><dd class="placeholder">Recommendations to come.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="wrap">
+    <p class="eyebrow reveal">Background</p>
+    <h2 class="reveal">Education and experience</h2>
+    <div class="timeline-grid">
+
+      <div class="tl">
+        <h3 class="col-title reveal">Education</h3>
+        <ol class="tl-list">
+          <li class="tl-item">
+            <span class="when">Jul 2026 – Aug 2027</span>
+            <h4>Master of Management in Analytics</h4>
+            <p class="org">Desautels Faculty of Management, McGill University</p>
+            <details><summary>Details</summary>
+              <ul><li>MMA Representative</li><li>Entrance Award of $12,000</li></ul>
+            </details>
+          </li>
+          <li class="tl-item">
+            <span class="when">Sep 2025 – Jun 2026</span>
+            <h4>MSc International Business, Strategic Corporate Finance</h4>
+            <p class="org">Maastricht University, School of Business and Economics</p>
+            <details><summary>Details</summary>
+              <ul><li>Thesis: Reshaping Financial Markets through Fintech Adoption: Evidence from Belgian Women's Investment Behavior</li></ul>
+            </details>
+          </li>
+          <li class="tl-item">
+            <span class="when">Sep 2022 – Jun 2025</span>
+            <h4>BA European Studies, minor in International Business</h4>
+            <p class="org">Maastricht University, Faculty of Arts and Social Sciences</p>
+            <details><summary>Details</summary>
+              <ul><li>Thesis: Shaping the Global Digital Order: Contrasting U.S., EU and Chinese Digital Regulatory Strategies in South Korea</li></ul>
+            </details>
+          </li>
+        </ol>
+      </div>
+
+      <div class="tl">
+        <h3 class="col-title reveal">Experience</h3>
+        <ol class="tl-list">
+          <li class="tl-item">
+            <span class="when">Sep 2026 – Apr 2027 · In progress</span>
+            <h4>Business Intelligence Developer &amp; UI Designer</h4>
+            <p class="org">Michelin, Metro Tire Business Unit · Montreal</p>
+            <details><summary>Details</summary>
+              <ul><li>Developing a proof of concept to improve demand forecasting accuracy</li><li>Leading UI design and Power BI forecasting dashboards</li></ul>
+            </details>
+          </li>
+          <li class="tl-item">
+            <span class="when">Nov 2026</span>
+            <h4>Scope-AI-Thon 2026, 2nd place</h4>
+            <p class="org">University of Waterloo x McGill University</p>
+            <details><summary>Details</summary>
+              <ul><li>Proposed an AI contactless monitoring system for early detection of deterioration in isolated patients</li></ul>
+            </details>
+          </li>
+          <li class="tl-item">
+            <span class="when">Sep 2025 – Jun 2026</span>
+            <h4>External Relations Manager</h4>
+            <p class="org">Scope Maastricht, Business &amp; Economics Association</p>
+            <details><summary>Details</summary>
+              <ul><li>Targeted consulting firms, negotiated fees and secured visits for the Luxembourg consulting trip</li><li>Delivered a trip rated 8.4/10, above the previous trip's 8.1/10</li></ul>
+            </details>
+          </li>
+          <li class="tl-item">
+            <span class="when">Aug 2024 – Dec 2024</span>
+            <h4>Economic &amp; Political Affairs Intern</h4>
+            <p class="org">Embassy of the Kingdom of Belgium · Canberra</p>
+            <details><summary>Details</summary>
+              <ul><li>Maintained country files across 12 markets for reporting to Brussels</li><li>Represented the Embassy at 30+ diplomatic meetings and conferences</li></ul>
+            </details>
+          </li>
+          <li class="tl-item">
+            <span class="when">Sep 2023 – Jun 2024</span>
+            <h4>Member, Permanent Delegation; Model UN Delegate</h4>
+            <p class="org">United Nations Student Association · HamMUN, MiniMUN, EuroMUN, JCUMUN</p>
+            <details><summary>Details</summary>
+              <ul><li>Trained weekly in UN debate simulations</li><li>Led 4 resolutions and won 3 Best Delegate awards</li></ul>
+            </details>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="wrap">
+    <p class="eyebrow reveal">Toolkit</p>
+    <h2 class="reveal">Skills, and where I've used them</h2>
+    <p class="section-intro reveal">Choose a skill to see the projects where I used it.</p>
+
+    <div class="skills-grid">
+      <div class="skill-cloud reveal" role="group" aria-label="Skills">
+        <button class="skill" data-skill="python" aria-pressed="false">Python</button>
+        <button class="skill" data-skill="stats" aria-pressed="false">Regression &amp; statistics</button>
+        <button class="skill" data-skill="causal" aria-pressed="false">Causal inference</button>
+        <button class="skill" data-skill="bayes" aria-pressed="false">Bayesian modelling</button>
+        <button class="skill" data-skill="sql" aria-pressed="false">SQL</button>
+        <button class="skill" data-skill="powerbi" aria-pressed="false">Power BI</button>
+        <button class="skill" data-skill="experiments" aria-pressed="false">Experiments</button>
+        <button class="skill" data-skill="r" aria-pressed="false">R</button>
+        <button class="skill" data-skill="fin" aria-pressed="false">Valuation (DCF, CAPM)</button>
+        <button class="skill" data-skill="excel" aria-pressed="false">Excel modelling</button>
+        <button class="skill" data-skill="databricks" aria-pressed="false">Databricks</button>
+      </div>
+
+      <div class="skill-panel" id="skill-panel" aria-live="polite">
+        <h3>Select a skill</h3>
+        <p>Each skill links to the case studies where I applied it.</p>
+      </div>
+    </div>
+
+    <div class="exploring">
+      <div class="reveal"><b>AI in finance</b>How AI changes client risk profiling and advice.</div>
+      <div class="reveal"><b>Financial markets</b>Portfolio construction, valuation and risk.</div>
+      <div class="reveal"><b>Analytics</b>Statistical models that hold up on new data.</div>
+      <div class="reveal"><b>Emerging tech</b>Practical uses of data tools in business decisions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <p class="eyebrow reveal">Get in touch</p>
+      <a class="contact-big reveal" href="mailto:astrid.philippet@gmail.com">Let's talk about the numbers.</a>
+    </div>
+    <ul class="contact-list reveal">
+      <li><a href="mailto:astrid.philippet@gmail.com">astrid.philippet@gmail.com</a></li>
+      <li><a href="https://www.linkedin.com/in/astrid-philippet-bb8146124" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="https://github.com/astridphilippet" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Astrid Philippet</span>
+    <span>Montréal</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Network canvas in the hero ---------- */
+  var canvas = document.getElementById("net");
+  if (canvas) {
+    var ctx = canvas.getContext("2d");
+    var W = 0, H = 0, dpr = 1;
+    var hubs = [
+      { x: 0.22, y: 0.3, label: "Finance", color: "#6b1f2e" },
+      { x: 0.78, y: 0.28, label: "Data", color: "#b08d57" },
+      { x: 0.74, y: 0.78, label: "Technology", color: "#6b1f2e" },
+      { x: 0.26, y: 0.76, label: "Management", color: "#b08d57" }
+    ];
+    var nodes = [];
+    var mouse = { x: -999, y: -999 };
+
+    for (var i = 0; i < 30; i++) {
+      nodes.push({
+        x: Math.random(), y: Math.random(),
+        vx: (Math.random() - 0.5) * 0.0006, vy: (Math.random() - 0.5) * 0.0006,
+        r: 1.5 + Math.random() * 1.5
+      });
+    }
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var rect = canvas.getBoundingClientRect();
+      W = rect.width; H = rect.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw(time) {
+      ctx.clearRect(0, 0, W, H);
+      var i, j, a, b;
+
+      for (i = 0; i < nodes.length; i++) {
+        a = nodes[i];
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > 1) a.vx *= -1;
+        if (a.y < 0 || a.y > 1) a.vy *= -1;
+        var mx = mouse.x / W - a.x, my = mouse.y / H - a.y;
+        var d = Math.sqrt(mx * mx + my * my);
+        if (d < 0.14 && d > 0) { a.x -= mx * 0.004; a.y -= my * 0.004; }
       }
-    </script>
-  </body>
+
+      for (i = 0; i < nodes.length; i++) {
+        a = nodes[i];
+        for (j = i + 1; j < nodes.length; j++) {
+          b = nodes[j];
+          var dx = (a.x - b.x) * W, dy = (a.y - b.y) * H;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 95) {
+            ctx.strokeStyle = "rgba(35,32,34," + (0.18 * (1 - dist / 95)).toFixed(3) + ")";
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x * W, a.y * H); ctx.lineTo(b.x * W, b.y * H); ctx.stroke();
+          }
+        }
+      }
+
+      for (i = 0; i < nodes.length; i++) {
+        a = nodes[i];
+        ctx.fillStyle = "rgba(35,32,34,0.55)";
+        ctx.beginPath(); ctx.arc(a.x * W, a.y * H, a.r, 0, Math.PI * 2); ctx.fill();
+      }
+
+      ctx.font = "500 13px Inter, sans-serif";
+      for (i = 0; i < hubs.length; i++) {
+        var h = hubs[i];
+        var pulse = 1 + 0.12 * Math.sin((time || 0) / 900 + i);
+        var hx = h.x * W, hy = h.y * H;
+        for (j = 0; j < hubs.length; j++) {
+          if (j <= i) continue;
+          var o = hubs[j];
+          ctx.strokeStyle = "rgba(107,31,46,0.28)";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(o.x * W, o.y * H); ctx.stroke();
+        }
+        ctx.fillStyle = h.color;
+        ctx.beginPath(); ctx.arc(hx, hy, 7 * pulse, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#232022";
+        ctx.fillText(h.label, hx + 12, hy + 4);
+      }
+    }
+
+    var running = !reduce;
+    function loop(t) {
+      if (!running) return;
+      draw(t);
+      requestAnimationFrame(loop);
+    }
+
+    canvas.addEventListener("pointermove", function (e) {
+      var r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    });
+    canvas.addEventListener("pointerleave", function () { mouse.x = -999; mouse.y = -999; });
+
+    window.addEventListener("resize", resize);
+    resize();
+    if (reduce) { draw(0); } else { requestAnimationFrame(loop); }
+  }
+
+  /* ---------- Flip cards: mouse, touch and keyboard ---------- */
+  document.querySelectorAll(".flip").forEach(function (card) {
+    card.addEventListener("click", function (e) {
+      if (e.target.closest("a")) return;
+      var on = card.classList.toggle("is-flipped");
+      card.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    card.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.click(); }
+    });
+  });
+
+  /* ---------- Skills map ---------- */
+  var skillInfo = {
+    python: { name: "Python", projects: ["Real Estate Price Estimation", "Halloween and Crime in Montréal", "Strava Kudos Analysis", "MRT Distance and House Prices"], target: "#projects" },
+    stats: { name: "Regression & statistics", projects: ["Real Estate Price Estimation", "Strava Kudos Analysis", "Halloween and Crime in Montréal"], target: "#projects" },
+    causal: { name: "Causal inference", projects: ["MRT Distance and House Prices"], target: "#projects" },
+    bayes: { name: "Bayesian modelling", projects: ["Halloween and Crime in Montréal"], target: "#projects" },
+    sql: { name: "SQL", projects: ["ACME Simulators Database"], target: "#projects" },
+    powerbi: { name: "Power BI", projects: ["Demand Forecasting for Michelin"], target: "#projects" },
+    experiments: { name: "Behavioural experiments", projects: ["Behavioural Finance with Ortec Finance"], target: "#projects" },
+    r: { name: "R", projects: [], note: "Listed in my toolkit. No case study uses it yet." },
+    fin: { name: "Valuation (DCF, CAPM)", projects: [], note: "Covered in my MSc finance coursework. No case study uses it yet." },
+    excel: { name: "Excel modelling", projects: [], note: "Financial modelling and pivot tables. No case study uses it yet." },
+    databricks: { name: "Databricks", projects: [], note: "Listed in my toolkit. No case study uses it yet." }
+  };
+  var panel = document.getElementById("skill-panel");
+  document.querySelectorAll(".skill").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".skill").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+      btn.setAttribute("aria-pressed", "true");
+      var info = skillInfo[btn.dataset.skill];
+      var html = "<h3>" + info.name + "</h3>";
+      if (info.projects.length) {
+        html += "<p>Used in:</p><ul>" + info.projects.map(function (p) {
+          return "<li><a href=\"#projects\">" + p + "</a></li>";
+        }).join("") + "</ul>";
+      } else {
+        html += "<p>" + info.note + "</p>";
+      }
+      panel.innerHTML = html;
+    });
+  });
+
+  /* ---------- Reveal on scroll, timeline items ---------- */
+  var reveals = document.querySelectorAll(".reveal, .tl-item");
+  if ("IntersectionObserver" in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---------- Nav: shadow on scroll and current section ---------- */
+  var nav = document.getElementById("nav");
+  window.addEventListener("scroll", function () {
+    nav.classList.toggle("scrolled", window.scrollY > 10);
+  }, { passive: true });
+
+  var links = document.querySelectorAll(".nav a[href^='#']");
+  var sectionIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      links.forEach(function (l) {
+        l.setAttribute("aria-current", l.getAttribute("href") === "#" + en.target.id ? "true" : "false");
+      });
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  ["projects", "experience", "skills", "contact"].forEach(function (id) {
+    var s = document.getElementById(id);
+    if (s) sectionIO.observe(s);
+  });
+})();
+</script>
+</body>
 </html>
