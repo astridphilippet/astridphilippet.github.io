@@ -77,6 +77,10 @@
   .hero .wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
   .hero h1 { font-size: clamp(44px, 6.2vw, 82px); margin: 18px 0 26px; }
   .hero h1 em { color: var(--wine); font-style: italic; }
+  .hero h1.degrees { font-size: clamp(34px, 4.4vw, 56px); margin: 18px 0 26px; }
+  .hero h1 .degree { display: block; }
+  .hero h1 .degree + .degree { margin-top: 14px; }
+  .hero h1 .school { display: block; font-family: "Inter", system-ui, sans-serif; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-top: 4px; }
   .hero .lede { font-size: 18px; color: var(--ink-2); max-width: 540px; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
   .btn {
@@ -330,8 +334,10 @@
   <div class="wrap">
     <div>
       <p class="eyebrow reveal">Astrid Philippet</p>
-      <h1 class="reveal">Master of Management in Analytics, <em>McGill University</em></h1>
-      <p class="lede reveal">MSc in International Business (Strategic Corporate Finance)</p>
+      <h1 class="reveal degrees">
+        <span class="degree">Master of Management in Analytics<span class="school">McGill University</span></span>
+        <span class="degree">MSc in International Business<span class="school">Strategic Corporate Finance</span></span>
+      </h1>
       <div class="actions reveal">
         <a class="btn solid" href="#projects">See the projects</a>
         <a class="btn" href="#experience">Experience</a>
