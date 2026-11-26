@@ -78,6 +78,11 @@
   .hero h1 { font-size: clamp(44px, 6.2vw, 82px); margin: 18px 0 26px; }
   .hero h1 em { color: var(--wine); font-style: italic; }
   .hero .lede { font-size: 18px; color: var(--ink-2); max-width: 540px; }
+  .edu { list-style: none; margin: 20px 0 0; padding: 0; max-width: 520px; border-top: 1px solid var(--line); }
+  .edu li { display: grid; grid-template-columns: 110px 1fr; column-gap: 20px; row-gap: 2px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .edu-status { grid-row: 1 / span 2; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--wine); padding-top: 7px; }
+  .edu-degree { font-family: var(--serif); font-size: 23px; line-height: 1.25; color: var(--ink); }
+  .edu-school { font-size: 14px; color: var(--ink-2); }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
   .btn {
     display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
@@ -294,6 +299,8 @@
     .front .media { height: 190px; }
     .bar { grid-template-columns: 90px 1fr 40px; }
     .scroll-cue { display: none; }
+    .edu li { grid-template-columns: 1fr; }
+    .edu-status { grid-row: auto; padding-top: 0; }
   }
   @media (max-width: 480px) {
     .nav ul li:nth-child(4) { display: none; }
@@ -329,8 +336,19 @@
 <section id="top" class="hero">
   <div class="wrap">
     <div>
-      <p class="eyebrow reveal">Master of Management in Analytics · McGill University</p>
-      <p class="lede reveal">MSc in International Business (Strategic Corporate Finance) and currently a Master of Management in Analytics at McGill University.</p>
+      <p class="eyebrow reveal">Education</p>
+      <ul class="edu reveal">
+        <li>
+          <span class="edu-status">Current</span>
+          <span class="edu-degree">Master of Management in Analytics</span>
+          <span class="edu-school">McGill University</span>
+        </li>
+        <li>
+          <span class="edu-status">Previously</span>
+          <span class="edu-degree">MSc in International Business</span>
+          <span class="edu-school">Strategic Corporate Finance</span>
+        </li>
+      </ul>
       <div class="actions reveal">
         <a class="btn solid" href="#projects">See the projects</a>
         <a class="btn" href="#experience">Experience</a>
